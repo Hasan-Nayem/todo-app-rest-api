@@ -7,13 +7,6 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -53,45 +46,68 @@ class TaskController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      */
-    public function show(Task $id)
+    public function show($id)
     {
         $task = Task::find($id);
-        return response()->json([
-            "task" => $task,
-        ]);
-    }
+        if($task){
+            return response()->json([
+                "task" => $task,
+            ], 200);
+        }else {
+            return response()->json(
+                [
+                    'error' => 'Invalid Id, No data found!'
+                ], 404);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Task $task)
-    {
-        //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Task $task)
-    {
-        //
+    public function update(Request $request, $id){
+
+    $task = Task::find($id);
+
+    if($task){
+        $task->title = $request->title;
+        $task->description = $request->description;
+        $task->is_completed = $request->is_completed;
+        $task->save();
+
+        return response()->json(
+            [
+                'message' => 'Task updated successfully',
+                'task' => $request->all()
+            ], 200);
+    }else{
+        return response()->json(
+            [
+                'error' => 'Invalid Id, No data found!'
+            ], 404);
     }
+
+}
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Task $task)
+    public function destroy($id)
     {
-        //
+        $task = Task::find($id);
+        if($task){
+            $task->delete();
+            return response()->json(
+                [
+                    'message' => 'Task deleted successfully',
+                ], 200);
+        }else{
+            return response()->json(
+                [
+                    'error' => 'Invalid Id, No data found!'
+                ], 404);
+        }
     }
 }
