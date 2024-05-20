@@ -18,9 +18,38 @@ class TaskController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        if($request->isMethod('POST')){
+
+            if($request->title){
+                $task = Task::create(
+                    [
+                        'title' => $request->title,
+                        'description' => $request->description,
+                    ]
+                );
+                return response()->json(
+                    [
+                        "acknowledge" => true,
+                        "insertedId" => $task->id,
+                    ]
+                , 201);
+            }else {
+                return response()->json(
+                    [
+                        "message" => "Title should not be empty",
+                    ]
+                , 403);
+            }
+        }else {
+            $task = Task::orderBy("created_at","asc")->get();
+            return response()->json(
+                [
+                    "tasks" => $task,
+                ]
+            ,200);
+        }
     }
 
     /**
