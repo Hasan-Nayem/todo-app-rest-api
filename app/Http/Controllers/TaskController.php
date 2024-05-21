@@ -16,6 +16,8 @@ class TaskController extends Controller
         if($request->isMethod('POST')){
 
             if($request->title){
+                // dd($request->description);
+                // exit();
                 $task = Task::create(
                     [
                         'title' => $request->title,
