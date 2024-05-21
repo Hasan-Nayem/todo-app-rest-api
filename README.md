@@ -99,6 +99,15 @@ Serve the application
 | `description` | `string` | **Required** |
 
 
+#### Sample Request Body
+
+```json
+{
+  "title": "Task Title",
+  "description": "Task Description"
+}
+```
+
 #### Sample Response
 
 ```json
@@ -148,15 +157,24 @@ Serve the application
 | :-------- | :------- | :------------------------- |
 | `id` | `integer` | **Required** |
 
+#### Sample Request Body
+
+```json
+{
+  "title": "Updated Title",
+  "description": "Updated Description",
+  "is_completed": true
+}
+```
 #### Sample Response
 
 ```json
 { "task": 
     { 
         "id": 1, 
-        "title": "Task Title", 
-        "description": "Task Description", 
-        "is_completed": false 
+        "title": "Updated Title", 
+        "description": "Updated Description", 
+        "is_completed": true 
     } 
 }
 ```
